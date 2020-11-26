@@ -1,4 +1,4 @@
-package com.ibs.gulimall.lorder;
+package com.ibs.gulimall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
