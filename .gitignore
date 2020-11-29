@@ -17,6 +17,14 @@ target/
 *.iws
 *.iml
 *.ipr
+.gitignore
+**/mvnw
+**/mvnw.cmd
+**/HELP.md
+**/.mvn
+**/.gitignore
+**/target
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,7 +40,5 @@ build/
 .vscode/
 
 
-**/.mvn/*
-**/.mvnw/*
-**/.mvnw.cmd/*
-**/target/*
+
+
