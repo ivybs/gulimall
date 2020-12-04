@@ -1,0 +1,70 @@
+docker下mysql配置
+【client】
+default-character-set=utf8
+
+【mysql】
+default-character-set=utf8
+【mysqld】
+init_connect='SET collation_connection = utf8_unicode_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+skip-character-set-client-handshake
+skip-name-resolve
+
+
+docker run -p 3306:3306 --name mysql \
+-v /mydata/mysql/log:/var/log/mysql \
+-v /mydata/mysql/data:/var/lib/mysql \
+-v /mydata/mysql/conf:/etc/mysql \
+-e MYSQL_ROOT_PASSWORD=root \
+-d mysql:5.7
+
+
+redis 命令:
+
+mkdir -p /mydata/redis/conf
+touch /mydata/redis/conf/redis.conf
+
+docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data \
+-v/mydata/redis/conf/redis.conf:/etc/redis/redis.conf \
+-d redis redis-server /etc/redis/redis.conf
+
+
+
+
+
+        - id: admin_route
+#         访问的服务名称，lb表示负载均衡的去访问
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+
+# 前端项目，都带上/api这个前缀
+# 现在验证码的访问地址是：http://Localhost:88/api/captcha.jpg
+# 由于renren-fast的配置文件中配置了：
+# servlet:
+#  context-path: /renren-fast
+# 而我们实际可以访问的验证码地址是：http://localhost:8080/renren-fast/captcha.jpg
+# 因此要进行一下的路径重写：
+          filters:
+            - RewritePath=/api(?<segment>.*),/renren-fast$\{segment}
+
+
+      #精确的路由放在高优先级
+        - id: product_route
+          uri: lb://product
+          predicates:
+            - Path=/api/product/**
+#            - Path=/api/product/**
+#            - Path=/api/**
+          fileters:
+            # http://localhost:88/api/product/category/list/tree
+            # http://localhost:10000/product/category/list/tree 也要用路径重写去把/api这个地方去除掉
+            - RewritePath=/api(?<segment>.*),$\{segment}
+
+
+        - id: path_route
+          uri: https://example.org
+          predicates:
+            - Path=/red/{segment},/blue/{segment}

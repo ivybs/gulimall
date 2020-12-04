@@ -33,14 +33,14 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
-    @Value("${ibs.name}")
-    private String name;
+//    @Value("${ibs.name}")
+//    private String name;
 
     @RequestMapping("/member/list")
     public R membercoupons(){
         CouponEntity couponEntity = new CouponEntity();
         couponEntity.setCouponName("满100减10");
-        System.out.println(name);
+//        System.out.println(name);
         return R.ok().put("coupons",Arrays.asList(couponEntity));
     }
 

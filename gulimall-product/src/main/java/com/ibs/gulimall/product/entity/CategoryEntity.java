@@ -1,10 +1,13 @@
 package com.ibs.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -56,5 +59,14 @@ public class CategoryEntity implements Serializable {
 	 * 商品数量
 	 */
 	private Integer productCount;
+
+	/**
+	 *  在实现网页的三级标题时会使用到
+	 *  这是我们自己加的一个属性，在数据表中是不存在的
+	 *  所以使用了@TableField(exist = false)这一句注解
+	 *  用于上一级标题查找下一级标题
+	 */
+	@TableField(exist = false)
+	private List<CategoryEntity> children;
 
 }

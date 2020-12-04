@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+
+      #精确的路由放在高优先级
+        - id: product_route
+          uri: https://www.baidu.com/
+          predicates:
+            - Path=/api/product/{segment}
+#          fileters:
+#            # http://localhost:88/api/product/category/list/tree
+#            # http://localhost:10000/product/category/list/tree 也要用路径重写去把/api这个地方去除掉
+#            - RewritePath=/api(?<segment>.*),$\{segment}
+
+
+
+
